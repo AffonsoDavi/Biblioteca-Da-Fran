@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Página administração</title>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+	integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+	crossorigin="anonymous"></script>
+<script src="../../js/admin.js"></script>
+<script src="../../js/cadastroUsuarios.js"></script>
+<script src="../../js/cadastroLivros.js"></script>
+<script src="../../js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../../css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="../../css/adm.css">
+
+</head>
+
+<body class="bgu">
+
+	<header>
+		<!-- img da logo -->
+		<div class="header-left">
+			<img src="../../imgs/logo.png" alt="Imagem de Destaque" id="imagemDestaque">
+		</div>
+		<div class="header-right" onclick="redireciona()">
+        	<button id="logoutBtn">Logout</button>
+    	</div>
+	</header>
+
+	<!-- menu lateral -->
+	<nav>
+		<!-- img relatorios com a modal  -->
+		<div class="menu-images ">
+			<div class="menu-item" onclick="abrirModal('modalRelatorio')">
+				<img src="../../imgs/relatorio.png" alt="Imagem Relatório">
+				<p>Gerar Relatórios</p>
+			</div>
+
+			<!-- img usuarios com a modal  -->
+			<div class="menu-item" onclick="PROJETO.usuarios.trazerUsuarios()">
+				<img src="../../imgs/usuarios.png" alt="Imagem Usuários">
+				<p>Gerir Usuários</p>
+			</div>
+
+			<!-- img Livros com a modal  -->
+			<div class="menu-item" onclick="abrirModal('modalEscolha')">
+				<img src="../../imgs/livros.png" alt="Imagem Livros">
+				<p>Gerir Livros</p>
+			</div>
+		</div>
+	</nav>
+	<!-- FIM -->
+
+	<!--MODAL DA IMAGEM GERAR RELATORIO  -->
+	<div id="modalRelatorio" class="modal-geral">
+		<div class="modal-content">
+			<span class="close" onclick="fecharModal('modalRelatorio')">&times;</span>
+			<h2>Gerar Relatório</h2>
+
+			<div class="modal-inputs">
+
+				<div class="input-container">
+					<label for="relatorioTipo">Tipo de Relatório:</label> <select
+						id="relatorioTipo" class="tamanhoInput" name="relatorioTipo">
+						<option value="selecione">Selecione</option>
+						<option value="usuarios">Relatório de Usuários</option>
+						<option value="livros">Relatório de Livros</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="modal-buttons">
+				<button type="button" onclick="abreRelatorios(relatorioTipo)">Gerar</button>
+			</div>
+		</div>
+	</div>
+	<!-- FIM -->
+
+	<!--MODAL DA IMAGEM LIVROS  -->
+		<div id="modalEscolha" class="modal-geral">
+			<div class="modal-content">
+				<span class="close" onclick="fecharModal('modalEscolha')">&times;</span>
+				<h2>Livros</h2>
+				<input type="hidden" name="idUsuario" id="idUsuario" value="livros">
+				<div class="modal-buttons">
+					<button type="button" onclick="PROJETO.livros.trazerLivros()">Gerir</button>
+					<button type="button" onclick="abrirModal('cadastraLivro')">Cadastrar</button>
+	
+				</div>
+			</div>
+		</div>
+	<!-- FIM -->
+
+
+	<!-- ABRE MODAL DE RELATORIO DE USUARIOS -->
+	<div id="modalRelatorioUsuarios" class="modal-geral">
+		<div class="modal-geral-content modal-content">
+			<span class="close"
+				onclick="fecharModal('modalRelatorioUsuarios');fecharModal('modalRelatorio')">&times;</span>
+			<h2>Relatório de Usuários</h2>
+			<div id="tabelaRelatorioUsuarios"></div>
+		</div>
+	</div>
+	<!-- ABRE MODAL DE RELATORIO DE LIVROS -->
+	<div id="modalRelatorioLivros" class="modal-geral">
+		<div class="modal-geral-content modal-content">
+			<span class="close" onclick="fecharModal('modalRelatorioLivros')">&times;</span>
+			<h2>Relatório de Livros</h2>
+			<div id="tabelaRelatorioLivros"></div>
+		</div>
+	</div>
+	<!-- FIM -->
+
+
+	<!-- MODAL DA IMAGEM GERIR USUARIOS -->
+	<div id="modalGerirUsuarios" class="modal-geral">
+		<div class="modal-geral-content modal-content">
+			<span class="close" onclick="fecharModal('modalGerirUsuarios')">&times;</span>
+			<h2>Gerenciamento de Usuários</h2>
+			<div id="tabelaGerirUsuarios"></div>
+		</div>
+	</div>
+	<!-- FIM -->
+
+
+	<!-- MODAL DA IMAGEM GERIR LIVROS -->
+	<div id="modalGerirLivros" class="modal-geral">
+		<div class="modal-geral-content modal-content">
+			<span class="close" onclick="fecharModal('modalGerirLivros')">&times;</span>
+			<h2>Gerenciamento de Livros</h2>
+			<div id="tabelaGerirLivros"></div>
+		</div>
+	</div>
+	<!-- FIM -->
+
+<!-- MODAL PARA EDITAR USUARIOS -->
+	<div id="modalEditaUsuario" class="modal-geral">
+		<div class="modal-geral-content modal-content">
+			<span class="close" onclick="fecharModal('modalEditaUsuario')">&times;</span>
+
+			<form name="frmEditaUsuario" id="usuarioEdita">
+
+				<label for="">Nome Completo:</label> 
+				<input type="text" id="fullname" name="nome"> 
+				<label for="email">E-mail:</label>
+				<input type="email" id="email" name="email"> 
+				<label for="telefone">Telefone:</label>
+				<input type="tel" id="telefone" name="telefone"> 
+				<label for="tipoUsuario">Tipo de Usuário:</label> 
+				<select id="tipoUsuario" name="tipoUsuario" required>
+					<option value="aluno">Aluno</option>
+					<option value="pais">Pais</option>
+				</select> <label for="password">Senha:</label> 
+				<input type="password" id="password" name="senha" required> 
+				<input type="hidden" name="idUsuario">
+
+				<button type=button
+					onclick="PROJETO.usuarios.editar(); fecharModal('modalEditaUsuario')">Atualizar</button>
+			</form>
+		</div>
+	</div>
+<!-- MODAL PARA CADASTRAR LIVROS -->
+	<div id="cadastraLivro" class="modal-geral">
+		<div class="modal-geral-content modal-content">
+			<span class="close" onclick="fecharModal('cadastraLivro')">&times;</span>
+			<h1>Cadastrar Livros</h1>
+			<form name="frmCadastraLivro" id="CadastraLivro">
+
+				<label for="titulo">Titulo:</label> 
+				<input type="text" id="titulo" name="titulo" required> 
+				<label for="autor">Autor:</label> 
+				<input type="text" id="autor" name="autor" required> 
+				<label for="paginas">Paginas:</label>
+				<input type="text" id="paginas" name="paginas" required> 
+				<label for="genero">Gênero:</label> 
+					<select id="genero" name="genero" required>
+					
+					<option value="selecione">Selecione</option>
+					<option value="romance">Romance</option>
+					<option value="comedia">Comedia</option>
+					<option value="terror">Terror</option>
+					<option value="aventura">Aventura</option>
+				</select>
+				
+				<input type="hidden" name="idLivro">
+				
+				<button type=button
+					onclick="PROJETO.livros.inserirLivros()">Cadastrar</button>
+			</form>
+		</div>
+	</div>
+	
+	
+	<!-- MODAL PARA EDITAR LIVROS -->
+	<div id="modalEditaLivro" class="modal-geral">
+		<div class="modal-geral-content modal-content">
+			<span class="close" onclick="fecharModal('modalEditaLivro')">&times;</span>
+			
+			<h1>Editar Livros</h1>
+			<form name="frmEditaLivro" id="editaLivro">
+
+				<label for="tituloEdita">Titulo:</label> 
+				<input type="text" id="tituloEdita" name="tituloEdita" required> 
+				<label for="autorEdita">Autor:</label> 
+				<input type="text" id="autorEdita" name="autorEdita" required> 
+				<label for="paginasEdita">Paginas:</label>
+				<input type="text" id="paginasEdita" name="paginasEdita" required> 
+				<label for="generoEdita">Gênero:</label> 
+					<select id="generoEdita" name="generoEdita" required>
+					
+					<option value="selecione">Selecione</option>
+					<option value="romance">Romance</option>
+					<option value="comedia">Comedia</option>
+					<option value="terror">Terror</option>
+					<option value="aventura">Aventura</option>
+				</select>
+				
+				<input type="hidden" name="idLivro">
+				
+				<button type=button
+					onclick="PROJETO.livros.editar(); fecharModal('modalEditaLivro')">Cadastrar</button>
+			</form>
+		</div>
+	</div>
+	
+	
+</body>
+
+</html>

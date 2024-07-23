@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Site da Biblioteca da Fran">
+<meta name="keywords" content="Romances, Comédias, Auto-Conhecimento">
+<meta name="author" content="Affonso Davi">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biblioteca da Fran</title>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="  	crossorigin="anonymous"></script>
+<script src="js/admin.js"></script>
+<script src="js/cadastroUsuarios.js"></script>
+<script src="js/jquery-ui.js"></script> 
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="css/login.css">
+	
+</head>
+
+
+<body class="bg">
+
+	<img src="imgs/logo.png" alt="Logo" class="logo">
+
+	<div class="login-container">
+
+		<h1>Faça seu Acesso</h1>
+
+		<form action="autenticar" method="POST" class="login-form" onsubmit="return ValidaDados()">
+			<label for="email">Email:</label> 
+			<input type="text" id="email" name="email" required> 
+			<label for="password">Senha:</label>
+			<input type="password" id="password" name="password" required>
+
+			<div class="botao-cadastro">
+				<button type="reset">Limpar</button>
+				<button type="submit">Enviar</button>
+			</div>
+		</form>
+	</div>
+	
+	<div id="usuarios"></div>
+	
+	<button onclick="abrirModal('modalCadastro')">Cadastrar-se</button>
+	
+	<div class="modal" id="modalCadastro">
+        <div class="modal-content">
+            <span class="close" onclick="fecharModal('modalCadastro')">&times;</span>
+			<h2 id = "teste">Cadastro</h2>
+			
+			
+			<form name="frmUsuarioCad" id="usuarioCad" >
+				<label for="fullname">Nome Completo:</label> 
+				<input type="text" id="fullname" name="nome" required> 
+				<label for="email">E-mail:</label>
+				<input type="email" id="email" name="email" required> 
+				
+				<label for="telefone">Telefone:</label>
+				<input type="tel" id="telefone" name="telefone" required placeholder="(xx) xxxxx-xxxx"> 
+				
+				<label for="tipoUsuario">Selecione o Tipo de Usuário:</label> <select
+					id="tipoUsuario" name="tipoUsuario" required>
+					<option value="selecione">Selecione</option>
+					<option value="aluno">Aluno</option>
+					<option value="pais">Pais</option>
+				</select>
+				
+				<label for="password">Senha:</label> 
+				<input type="password" id="password" name="senha" required> 
+				<label for="confirmPassword">Confirmação de Senha:</label> 
+				<input type="password" id="confirmPassword" name="confirmPassword" required>
+
+				<button type=button onclick="PROJETO.usuarios.inserirUsuario(); fecharModal('modalCadastro')">Cadastrar</button>
+			</form>
+		</div>
+	</div>
+
+
+	<footer>@ProjetoIndividual</footer>
+
+</body>
+
+
+</html>
